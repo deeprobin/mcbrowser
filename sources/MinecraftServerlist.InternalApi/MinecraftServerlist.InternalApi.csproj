@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinecraftServerlist.Data\MinecraftServerlist.Data.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.InternalApi.Common\MinecraftServerlist.InternalApi.Common.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Services\MinecraftServerlist.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="AspNetCore" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>

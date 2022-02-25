@@ -1,0 +1,28 @@
+PRIO 0
+* Create a good frontend // Konzept von Hendrik dringend!!! !!! !!!!!! !!! !!!!!! !!! !!!
+
+PRIO 1
+* Implement mail sending logic (registration confirmation, ...)
+* Implement payment logic
+  -> For server owners: Server boost / highlightning // vielleicht �hnlich wie das Highlightning von ebay Kleinanzeigen realisieren?
+  -> For voters: AutoVoter
+
+PRIO 2
+* Add monitoring solution (Influx/Prometheus/...)
+* Add more unit & integration tests
+* Add alternatives to votifier protocol (maybe with payment?)
+  -> WebHooks
+  -> REST/SOAP Calls
+  -> SAP IDoc
+
+PRIO 3
+* Frontend: SEO Improvements
+* CI: GitHub Actions
+* Automatic Certificate Check (and renewal notifications?)
+* Terraform Infrastructure
+
+PRIO 4
+* Add audit logs
+* Runtime performance checks
+* Add benchmarks for slow parts
+* SAML auth (+ SAML for Grafana)

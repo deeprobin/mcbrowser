@@ -1,0 +1,46 @@
+﻿@page "/server/{Id:int}/automatic-voting"
+@using MinecraftServerlist.BlazorFrontend.Shared
+@using MinecraftServerlist.InternalApi.Client
+@using MinecraftServerlist.InternalApi.Common.ResponseObjects
+@inject InternalClient _internalClient
+
+<PageTitle>Servers</PageTitle>
+
+<h1>Server</h1>
+
+@if (_server == null)
+{
+    <PageLoader/>
+}
+else
+{
+    <form action=@($"/api/internal/Payment/CreateAutoVoteSession/{_server.Id}") method="POST">
+
+        <button type="submit" id="checkout-button">Checkout</button>
+
+    </form>
+
+    <form action="/api/internal/Payment/CreatePortalSession" method="POST">
+
+        <!-- Add a hidden field with the lookup_key of your Price -->
+
+        <input type="hidden" name="lookup_key" value="auto_vote" />
+
+        <button id="checkout-and-portal-button" type="submit">Checkout</button>
+
+    </form>
+}
+
+Welcome to your new app.
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AdvancedServerResponse? _server;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _server = await _internalClient.ServerRepository.GetServerAsync(Id);
+    }
+}

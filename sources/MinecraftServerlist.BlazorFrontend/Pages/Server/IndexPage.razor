@@ -1,0 +1,49 @@
+﻿@page "/server/{Id:int}"
+@using MinecraftServerlist.BlazorFrontend.Shared
+@using MinecraftServerlist.InternalApi.Client
+@using MinecraftServerlist.InternalApi.Common.ResponseObjects
+@inject InternalClient _internalClient
+
+<PageTitle>Servers</PageTitle>
+
+<h1>Server</h1>
+
+@if (_server == null)
+{
+    <PageLoader/>
+}
+else
+{
+    <nav class="panel">
+        <p class="panel-heading">
+            Repositories
+        </p>
+        <div class="panel-block">
+            <div class="columns">
+                <div class="column is-one-third">
+                    <b>Website</b>
+                </div>
+                <div class="column is-two-thirds">
+                    <a href=@_server.Website>@_server.Website</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <h1>@_server.Title</h1>
+    <h2>@_server.ShortDescription</h2>
+    <b>@_server.LongDescription</b>
+}
+
+Welcome to your new app.
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AdvancedServerResponse? _server;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _server = await _internalClient.ServerRepository.GetServerAsync(Id);
+    }
+}

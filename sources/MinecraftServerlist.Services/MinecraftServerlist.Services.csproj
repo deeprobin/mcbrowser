@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>MinecraftServerlist.Services.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="AspNetCore" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="InfluxDB.Client" Version="3.3.0-dev.4889" />
+    <PackageReference Include="prometheus-net" Version="5.1.0-pre-000215-c81d12d" />
+    <PackageReference Include="prometheus-net.DotNetRuntime" Version="4.2.3" />
+    <PackageReference Include="Stripe.net" Version="39.89.0" />
+    <PackageReference Include="System.Linq.Async" Version="5.1.0" />
+    <ProjectReference Include="..\MinecraftServerlist.Common\MinecraftServerlist.Common.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Data\MinecraftServerlist.Data.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Ping\MinecraftServerlist.Ping.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Vote\MinecraftServerlist.Votifier.csproj" />
+  </ItemGroup>
+
+</Project>

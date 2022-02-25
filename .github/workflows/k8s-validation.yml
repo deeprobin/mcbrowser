@@ -1,0 +1,30 @@
+name: Kubernetes validation
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release/*'
+    paths:
+      - 'k8s/**'
+  pull_request:
+    paths:
+     - 'k8s/**'
+jobs:
+  kubeval:
+    name: Validate K8s configuration (kubeval)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: test
+      uses: instrumenta/kubeval-action@master
+      with: 
+       files: ./k8s/
+  shellcheck:
+    name: Validate k8s/apply.sh
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: './k8s/'

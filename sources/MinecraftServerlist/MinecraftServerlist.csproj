@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>bd4f9c50-bf5b-4aa4-adb5-1b5df1d8ece6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.2" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="5.0.2" />
+    <PackageReference Include="prometheus-net.EntityFramework" Version="0.9.5" />
+    <PackageReference Include="prometheus-net.SystemMetrics" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<ProjectReference Include="..\MinecraftServerlist.BlazorFrontend\MinecraftServerlist.BlazorFrontend.csproj" />-->
+    <ProjectReference Include="..\MinecraftServerlist.Data.Development\MinecraftServerlist.Data.Development.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.InternalApi\MinecraftServerlist.InternalApi.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.PublicApi\MinecraftServerlist.PublicApi.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Data\MinecraftServerlist.Data.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Services\MinecraftServerlist.Services.csproj" />
+    <ProjectReference Include="..\MinecraftServerlist.Web\MinecraftServerlist.Web.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
+
+</Project>

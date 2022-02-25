@@ -1,0 +1,36 @@
+name: CI Build
+on:
+  push:
+    branches:
+      - 'main'
+      - 'release/*'
+    paths-ignore:
+      - 'docs/**'
+  pull_request:
+    paths-ignore:
+     - 'docs/**'
+
+jobs:
+  build:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+    - name: Count lines under ./sources/
+      id: scc
+      uses: iryanbell/scc-docker-action@v1.0.2
+      with:
+        args: ${{ env.workspace }}/sources -i cs,razor,cshtml,html,css,js
+    - name: Setup .NET 6.0.100
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.100
+    - name: Restore tools
+      run: dotnet tool restore
+    - name: Clean solution
+      run: dotnet nuke Clean
+    - name: Build solution
+      run: dotnet nuke Compile
+    - name: Test solution
+      run: dotnet nuke Test

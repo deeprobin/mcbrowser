@@ -1,0 +1,14 @@
+﻿@page "/checkout/success"
+
+<div class="notification is-success">
+    <button class="delete"></button>
+    <strong>Payment success</strong><br/>
+    Your order with Id 123 has been successfully received. You can view it at any time under the <i>Profile &rarr; Payments</i> tab.
+    <form action="/create-portal-session" method="POST">
+
+        <input type="hidden" id="session-id" name="session_id" value="" />
+
+        <button id="checkout-and-portal-button" type="submit">Manage your billing information</button>
+
+    </form>
+</div>

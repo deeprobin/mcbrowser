@@ -1,0 +1,141 @@
+﻿@page "/servers/{Sort}/{Page:int?}"
+@using MinecraftServerlist.BlazorFrontend.Shared
+@using MinecraftServerlist.InternalApi.Client
+@using MinecraftServerlist.InternalApi.Common.ResponseObjects
+@inject InternalClient _internalClient
+@inject NavigationManager _navigationManager
+
+<PageTitle>Servers</PageTitle>
+
+@if (_servers is null)
+{
+    <PageLoader/>
+}
+else
+{
+    <a class="button">Anchor</a>
+    <button class="button">Button</button>
+    <input class="button" type="submit" value="Submit input">
+    <input class="button" type="reset" value="Reset input">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Desc</th>
+                <th>Players</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var server in _servers)
+            {
+                <tr @onclick="() => HandleServerClick(server)">
+                    <td>@(server.Id ?? -1)</td>
+                    <td><a href=@("server/" + server.Id)>@(server.Title ?? "Unnamed server")</a></td>
+                    <td>@(server.ShortDescription ?? "So beautiful, that it has no description")</td>
+                    <td>@server.OnlinePlayers/@server.MaxPlayers</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        @if (Page != 1)
+        {
+            <a class="pagination-previous">Previous</a>
+        }
+        @if (_maxPages != NextPage)
+        {
+            <a class="pagination-next">Next page</a>
+        }
+        <ul class="pagination-list">
+            @if ((Page ?? 1) != 1)
+            {
+                <li>
+                    <a class="pagination-link" aria-label="Goto page 1" href=@($"/servers/{Sort}/")>1</a>
+                </li>
+                <li>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+
+                @if (PreviousPage != 1)
+                {
+                    <li>
+                        <a class="pagination-link" aria-label=@($"Goto page {PreviousPage}") href=@($"/servers/{Sort}/{PreviousPage}")>@PreviousPage</a>
+                    </li>
+                }
+            }
+            <li>
+                <a class="pagination-link is-current" aria-label=@($"Page {Page ?? 1}") aria-current="page">@(Page ?? 1)</a>
+            </li>
+            @if (_maxPages != NextPage)
+            {
+                <li>
+                    <a class="pagination-link" aria-label=@($"Goto page {NextPage}") href=@($"/servers/{Sort}/{NextPage}")>@NextPage</a>
+                </li>
+            }
+            @if (_maxPages != Page)
+            {
+                <li>
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+                <li>
+                    <a class="pagination-link" aria-label=@($"Goto page {_maxPages}") href=@($"/servers/{Sort}/{_maxPages}")>@_maxPages</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+@code {
+    private const int ItemsPerPage = 30;
+
+    private int? _maxPages;
+    private ServerResponse[]? _servers;
+
+    [Parameter]
+    public string? Sort { get; set; }
+
+    [Parameter]
+    public int? Page { get; set; }
+
+    private int PreviousPage => (Page ?? 1) - 1;
+    private int NextPage => (Page ?? 1) + 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var count = await _internalClient.ServerRepository.GetCountAsync();
+        var itemsRem = count % ItemsPerPage;
+        _maxPages = count / ItemsPerPage;
+        if (itemsRem != 0)
+        {
+            _maxPages++;
+        }
+
+        var skip = ((Page ?? 1) - 1) * ItemsPerPage;
+        if (Sort is null)
+        {
+            throw new InvalidOperationException($"Route-Part {nameof(Sort)} is null");
+        }
+
+        if (Sort.Equals("Popular", StringComparison.OrdinalIgnoreCase))
+        {
+            _servers = (await _internalClient.ServerRepository.GetTopServersAsync(ItemsPerPage, skip))!.ToArray();
+        } else if (Sort.Equals("Recent", StringComparison.OrdinalIgnoreCase))
+        {
+            _servers = (await _internalClient.ServerRepository.GetNewestServersAsync(ItemsPerPage, skip))!.ToArray();
+        } else if (Sort.Equals("Trending", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            throw new InvalidOperationException($"Invalid Route-Part {nameof(Sort)}");
+        }
+    }
+
+    private void HandleServerClick(ServerResponse server)
+    {
+        _navigationManager.NavigateTo($"/servers/{server.Id}");
+    }
+}
